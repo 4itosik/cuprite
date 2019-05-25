@@ -100,36 +100,33 @@ module Capybara::Cuprite
 
         @path = options[:browser_path] || BROWSER_PATH || self.class.detect_browser_path
 
-        if options[:url]
-          url = URI.join(options[:url].to_s, "/json/version")
-          response = JSON.parse(::Net::HTTP.get(url))
-          set_ws_url(response["webSocketDebuggerUrl"])
-          return
-        end
+        url = URI.join(options[:url].to_s, "/json/version")
+        response = JSON.parse(::Net::HTTP.get(url))
+        set_ws_url(response["webSocketDebuggerUrl"])
 
         # Doesn't work on MacOS, so we need to set it by CDP as well
-        @options.merge!("window-size" => options[:window_size].join(","))
+        # @options.merge!("window-size" => options[:window_size].join(","))
 
-        port = options.fetch(:port, BROWSER_PORT)
-        @options.merge!("remote-debugging-port" => port)
+        # port = options.fetch(:port, BROWSER_PORT)
+        # @options.merge!("remote-debugging-port" => port)
 
-        host = options.fetch(:host, BROWSER_HOST)
-        @options.merge!("remote-debugging-address" => host)
+        # host = options.fetch(:host, BROWSER_HOST)
+        # @options.merge!("remote-debugging-address" => host)
 
-        @options.merge!("user-data-dir" => Dir.mktmpdir)
+        # @options.merge!("user-data-dir" => Dir.mktmpdir)
 
-        @options = DEFAULT_OPTIONS.merge(@options)
+        # @options = DEFAULT_OPTIONS.merge(@options)
 
-        unless options.fetch(:headless, true)
-          @options.delete("headless")
-          @options.delete("disable-gpu")
-        end
+        # unless options.fetch(:headless, true)
+        #   @options.delete("headless")
+        #   @options.delete("disable-gpu")
+        # end
 
-        @process_timeout = options.fetch(:process_timeout, PROCESS_TIMEOUT)
+        # @process_timeout = options.fetch(:process_timeout, PROCESS_TIMEOUT)
 
-        @options.merge!(options.fetch(:browser_options, {}))
+        # @options.merge!(options.fetch(:browser_options, {}))
 
-        @logger = options[:logger]
+        # @logger = options[:logger]
       end
 
       def start
